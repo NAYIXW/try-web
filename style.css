@@ -1,2333 +1,334 @@
-/* Import fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
 
-/* 基础重置 */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* ===========================================
+   移动端响应式设计
+   =========================================== */
 
-/* Basic sizing rules to ensure full height */
-html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-/* Base font settings */
-body {
-    font-family: 'Inter', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    line-height: 1.6;
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #f5f5f5;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* 深色模式变量 */
-body.dark-mode {
-    --bg-primary: #121212;
-    --bg-secondary: #1e1e1e;
-    --text-primary: #ffffff;
-    --text-secondary: #c9c9c9;
-    --text-tertiary: #9f9f9f;
-    --border-color: #333333;
-    --card-bg: #1e1e1e;
-    --hover-bg: #2a2a2a;
-}
-
-/* 浅色模式变量 */
-body:not(.dark-mode) {
-    --bg-primary: #f5f5f5;
-    --bg-secondary: #ffffff;
-    --text-primary: #111111;
-    --text-secondary: #555555;
-    --text-tertiary: #777777;
-    --border-color: #e0e0e0;
-    --card-bg: #ffffff;
-    --hover-bg: #f9f9f9;
-}
-
-body {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    font-family: 'Inter', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-}
-
-/* Homepage full-screen background */
-body.page-home {
-  background-image: url('./背景.JPG'); /* Using the existing background path */
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  background-attachment: fixed;
-  min-height: 100vh;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-/* Clean, Photography Exhibition Style Navigation */
-.main-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 24px;
-    height: 56px;
-    background: #ffffff;
-    color: #222222;
-    border-bottom: 1px solid #e0e0e0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 2000;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.nav-left {
-    display: flex;
-    align-items: center;
-}
-
-.nav-logo {
-    font-size: 20px;
-    font-weight: 700;
-    color: #222222;
-}
-
-.nav-center {
-    display: flex;
-    align-items: center;
-    gap: 0;
-}
-
-.nav-link {
-    font-size: 14px;
-    font-weight: 500;
-    color: #444444;
-    text-decoration: none;
-    padding: 6px 12px;
-    margin: 0 8px;
-    border: none;
-    background: transparent;
-    border-radius: 0;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.nav-link:hover {
-    background-color: rgba(0,0,0,0.05);
-    color: #222222;
-}
-
-.nav-link.is-active {
-    background-color: rgba(0,0,0,0.08);
-    color: #222222;
-    font-weight: 600;
-}
-
-.nav-right {
-    display: flex;
-    align-items: center;
-    gap: 0;
-}
-
-.theme-toggle {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: none;
-    background: #e0e0e0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-    margin: 0 8px;
-}
-
-.nav-username {
-    font-weight: 500;
-    color: inherit;
-    margin-right: 4px;
-}
-
-/* User dropdown styles */
-.user-dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.user-dropdown-btn {
-    display: flex;
-    align-items: center;
-    background: none;
-    border: none;
-    padding: 6px 8px;
-    margin: 0 8px;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: background-color 0.2s ease;
-}
-
-.user-dropdown-btn:hover {
-    background-color: rgba(0,0,0,0.05);
-}
-
-.dropdown-arrow {
-    font-size: 12px;
-    margin-left: 4px;
-    color: #666;
-}
-
-.user-dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: rgba(255,255,255, 0.95);
-    min-width: 160px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-    border-radius: 8px;
-    z-index: 1000;
-    overflow: hidden;
-}
-
-.user-dropdown-menu.show {
-    display: block;
-}
-
-.dropdown-item {
-    display: block;
-    padding: 12px 16px;
-    color: #1a1a1a;
-    text-decoration: none;
-    transition: background-color 0.2s ease;
-}
-
-.dropdown-item:hover {
-    background-color: rgba(0,0,0,0.05);
-}
-
-/* Dark mode dropdown styles */
-body.dark-mode .user-dropdown-btn:hover {
-    background-color: rgba(255,255,255,0.08);
-}
-
-body.dark-mode .user-dropdown-menu {
-    background: rgba(0,0,0, 0.85);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-}
-
-body.dark-mode .dropdown-item {
-    color: #FFFFFF;
-}
-
-body.dark-mode .exhibition-toolbar .actions button {
-  background-color: #2a2a2a;
-  color: #FFFFFF;
-}
-
-body.dark-mode .exhibition-toolbar .actions button:hover {
-  background-color: #3a3a3a;
-}
-
-body.dark-mode .exhibition-toolbar .actions button:last-child {
-  background-color: #2a2a2a;
-  color: #FFFFFF;
-}
-
-body.dark-mode .exhibition-toolbar .actions button:last-child:hover {
-  background-color: #3a3a3a;
-}
-
-/* Dark mode overrides for exhibition buttons */
-body.dark-mode .exhibition-toolbar button {
-  background-color: #2a2a2a !important;
-  color: #FFFFFF !important;
-}
-
-body.dark-mode .exhibition-toolbar .actions button:last-child {
-  background-color: #E74C3C !important;
-  color: #FFFFFF !important;
-}
-
-body.dark-mode .exhibition-toolbar .actions button:last-child:hover {
-  background-color: #D62C1A !important;
-}
-
-/* Dark mode styles for exhibition page */
-body.dark-mode .exhibition-sidebar {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-}
-
-body.dark-mode .photo-list-item {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-}
-
-body.dark-mode .photo-list-item button {
-  background-color: var(--card-bg);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-}
-
-body.dark-mode .photo-list-item button:hover {
-  background-color: var(--hover-bg);
-  border-color: var(--border-color);
-}
-
-body.dark-mode .exhibition-toolbar .actions button {
-  background-color: var(--card-bg);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-}
-
-body.dark-mode .exhibition-toolbar .actions button:hover {
-  background-color: var(--hover-bg);
-  border-color: var(--border-color);
-}
-
-body.dark-mode .exhibition-toolbar .actions button:last-child {
-  background-color: var(--card-bg);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-}
-
-body.dark-mode .exhibition-toolbar .actions button:last-child:hover {
-  background-color: var(--hover-bg);
-  border-color: var(--border-color);
-}
-
-body.dark-mode .work-item {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-}
-
-/* Overridden by unified styles later in the file */
-
-body.dark-mode .text-controls button {
-  background-color: rgba(255, 255, 255, 0.15);
-  color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-body.dark-mode .text-controls button:hover {
-  background-color: rgba(255, 255, 255, 0.25);
-}
-
-body.dark-mode .dropdown-item:hover {
-    background-color: rgba(255,255,255,0.12);
-}
-
-
-
-/* Deep mode styles */
-body.dark-mode .main-nav {
-    background: #111111;
-    color: #f5f5f5;
-    border-bottom: 1px solid #333333;
-}
-
-body.dark-mode .nav-logo {
-    color: #f5f5f5;
-}
-
-body.dark-mode .nav-link {
-    color: #dddddd;
-}
-
-body.dark-mode .nav-link:hover {
-    background-color: rgba(255,255,255,0.08);
-    color: #ffffff;
-}
-
-body.dark-mode .nav-link.is-active {
-    background-color: rgba(255,255,255,0.12);
-    color: #ffffff;
-    font-weight: 600;
-}
-
-body.dark-mode .theme-toggle {
-    background: #333333;
-    border: none;
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    font-size: 16px;
-    color: #f5f5f5;
-}
-
-
-
-/* Unified button styles in dark mode */
-body.dark-mode button,
-body.dark-mode .btn,
-body.dark-mode input[type="button"],
-body.dark-mode input[type="submit"] {
-  background: transparent;
-  border: 1px solid #444444;
-  color: #dddddd;
-  border-radius: 6px;
-  padding: 6px 14px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-body.dark-mode button:hover,
-body.dark-mode .btn:hover,
-body.dark-mode input[type="button"]:hover,
-body.dark-mode input[type="submit"]:hover {
-  background: rgba(255,255,255,0.06);
-}
-
-/* Input fields for dark mode */
-body.dark-mode input,
-body.dark-mode select,
-body.dark-mode textarea {
-  background: #1a1a1a;
-  border: 1px solid #444444;
-  color: #e0e0e0;
-  border-radius: 6px;
-}
-
-body.dark-mode input::placeholder,
-body.dark-mode textarea::placeholder {
-  color: #777777;
-}
-
-/* 作品卡片照片取消边框 */
-.photo-card img,
-.work-item img,
-.gallery-item img {
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-/* 如果有用于显示边框的容器也移除边框 */
-.photo-card,
-.work-item,
-.gallery-item {
-  border: none !important;
-}
-
-/* Work image styling */
-.work-img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  border-radius: 8px;
-  margin-bottom: 8px;
-}
-
-/* Dark mode for work image */
-body.dark-mode .work-img {
-  background-color: var(--card-bg);
-}
-
-/* 主内容区 */
-#main-content {
-    margin-top: 64px;
-    min-height: calc(100vh - 64px);
-}
-
-.content-section {
-    display: none;
-}
-
-.content-section.active {
-    display: block;
-    animation: fadeIn 0.5s ease-in;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* 卡片网格布局 */
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-}
-
-.card {
-  background-color: var(--card-bg);
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--border-color);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
-  z-index: 10; /* Ensure cards appear above background overlay */
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* Homepage specific card styles */
-#home .card {
-  background: rgba(255, 255, 255, 0.85); /* 半透明白色背景 */
-  border-radius: 12px;
-  padding: 1.25rem; /* 20px equivalent */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--border-color);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
-  z-index: 3; /* Ensure homepage cards appear above background overlay */
-}
-
-/* 打断外层继承：首页卡片内所有文字统一设为黑色 */
-#home .card,
-#home .card * {
-  color: #000 !important;
-  text-shadow: none;
-}
-
-/* ===== 深色模式 ===== */
-
-/* 深色模式下，首页卡片背景改为半透明黑色 */
-body.dark-mode #home .card {
-  background: rgba(0, 0, 0, 0.7);
-}
-
-/* 深色模式下，首页卡片和内部所有文字统一改为白色 */
-body.dark-mode #home .card,
-body.dark-mode #home .card * {
-  color: #fff !important;
-}
-
-/* Homepage specific card grid - 4 columns on desktop */
-#home .card-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.2rem;
-    margin-top: 2rem;
-}
-
-#home .card {
-    padding: 1.2rem;
-}
-
-#home .card h3 {
-    font-size: 1rem; /* ~16px */
-    margin-bottom: 0.8rem;
-}
-
-#home .card h3 {
-    font-size: 1.25rem; /* 20px */
-    margin-bottom: 0.8rem;
-    color: #111; /* Light mode title color */
-    font-weight: 500; /* Medium */
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-}
-
-#home .card p {
-    font-size: 1rem; /* 16px */
-    line-height: 1.5;
-    color: #111; /* Light mode text color */
-    font-family: 'Inter', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-}
-
-/* Dark mode overrides for homepage cards */
-body.dark-mode #home .card h3 {
-    color: #EEE; /* Dark mode title color */
-}
-
-body.dark-mode #home .card p {
-    color: #EEE; /* Dark mode text color */
-}
-
-/* Reset any interfering styles for homepage area */
-#home {
-  color: inherit;
-  opacity: 1;
-  mix-blend-mode: normal;
-  filter: none;
-}
-
-/* Responsive adjustments for homepage cards */
-@media (max-width: 1024px) {
-    #home .card-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
+/* 平板设备 (768px 以下) */
 @media (max-width: 768px) {
-    #home .card-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    #home .card-grid {
-        gap: 1rem;
-    }
-}
-
-/* 上传区域 */
-.upload-section {
-    background-color: var(--card-bg);
-    border: 2px dashed var(--border-color);
-    border-radius: 8px;
-    padding: 2rem;
-    text-align: center;
-    margin: 2rem 0;
-}
-
-.upload-section input[type="file"] {
-    margin-bottom: 1rem;
-    width: 100%;
-    max-width: 300px;
-}
-
-.upload-section button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-}
-
-.upload-section button:hover {
-    background-color: #0056b3;
-}
-
-/* 照片卡片样式 */
-.photo-card {
-    position: relative;
-    margin-bottom: 1.5rem;
-    background-color: var(--card-bg);
-    border-radius: 10px;
-    padding: 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border: 1px solid var(--border-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* 照片删除按钮 */
-.photo-delete-btn {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    background: rgba(0,0,0,0.6);
-    color: white;
-    padding: 4px 8px;
-    font-size: 12px;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-    z-index: 10;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.photo-card:hover .photo-delete-btn {
-    opacity: 1;
-}
-
-.photo-delete-btn:hover {
-    background: rgba(0,0,0,0.8);
-}
-
-/* Dark mode styles for photo delete button */
-body.dark-mode .photo-delete-btn {
-    background: rgba(0,0,0,0.6);
-    color: white;
-}
-
-body.dark-mode .photo-delete-btn:hover {
-    background: rgba(0,0,0,0.8);
-}
-
-.photo-card-content {
-    display: flex;
-    flex-direction: column; /* Changed to vertical layout */
-    gap: 0; /* Removed gap since image and details are stacked vertically */
-}
-
-.photo-preview {
-    width: 100%;
-    flex-shrink: 0;
-    cursor: pointer; /* Indicate that image is clickable */
-}
-
-.photo-preview img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 10px; /* Increased border radius to match requirement */
-}
-
-.photo-details {
-    display: none; /* Hidden by default, shown when clicked */
-    flex-direction: column;
-    padding-top: 1rem;
-    margin-top: 1rem;
-    border-top: 1px solid var(--border-color);
-    background-color: var(--bg-secondary);
-    border-radius: 8px;
-    padding: 1rem;
-}
-
-/* Dark mode for photo details */
-body.dark-mode .photo-details {
-    background-color: var(--bg-secondary);
-    border-top: 1px solid var(--border-color);
-}
-
-/* Add dark mode styles for params detail */
-body.dark-mode .params-detail {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-}
-
-.photo-details.expanded {
-    display: flex; /* Show when expanded */
-}
-
-.photo-title {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    border-bottom: 1px dashed var(--border-color);
-    padding-bottom: 0.5rem;
-    outline: none;
-    width: 100%;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: var(--text-primary);
-    background: transparent;
-    border: none;
-}
-
-.photo-exif {
-    margin-bottom: 1rem;
-}
-
-.photo-exif p {
-    margin: 0.3rem 0;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-}
-
-.photo-tags {
-    margin-top: 1rem;
-}
-
-@media (max-width: 768px) {
-    .photo-card-content {
-        flex-wrap: wrap;
-    }
-    
-    .photo-preview {
-        width: 100%;
-    }
-}
-
-/* 照片标题样式 */
-.photo-title {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    border-bottom: 1px dashed var(--border-color);
-    padding-bottom: 0.5rem;
-    outline: none;
-}
-
-.photo-exif {
-    margin-bottom: 1rem;
-}
-
-.photo-exif p {
-    margin: 0.3rem 0;
-    font-size: 0.9rem;
-}
-
-.photo-tags {
-    margin-top: 1rem;
-}
-
-.tag-input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 0.5rem;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    background-color: var(--bg-secondary);
-    color: var(--text-primary);
-}
-
-.save-tags-btn {
-    background-color: #17a2b8;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.3s ease;
-}
-
-.save-tags-btn:hover {
-    background-color: #138496;
-}
-
-/* 认证表单 */
-.auth-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 2rem;
-}
-
-.auth-form {
-    padding: 2rem;
-    width: 100%;
-    max-width: 400px;
-}
-
-.auth-form input {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    background-color: var(--bg-secondary);
-    color: var(--text-primary);
-}
-
-.auth-form button {
-    width: 100%;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-}
-
-.auth-form button:hover {
-    background-color: #0056b3;
-}
-
-.auth-form h3 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: var(--text-primary);
-}
-
-/* 地图容器 */
-#map-container {
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-#map-placeholder {
-    width: 100%;
-    height: 80%;
-    background-color: var(--hover-bg);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-secondary);
-    font-size: 1.2rem;
-}
-
-/* EXIF 结果 */
-#exif-results {
-    margin-top: 2rem;
-}
-
-#exif-info {
-    margin-top: 1rem;
-    font-family: monospace;
-    background-color: var(--hover-bg);
-    padding: 1rem;
-    border-radius: 4px;
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-/* EXIF 统计部分 */
-.exif-stats-section {
-    margin-top: 3rem;
-}
-
-.stats-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-}
-
-.stat-panel {
-    padding: 1.5rem;
-}
-
-/* 作品库同步缩略图区域 */
-.library-sync-section {
-    margin: 2rem 0;
-    padding: 1.5rem;
-    background-color: var(--card-bg);
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-}
-
-.library-sync-section h3 {
-    color: var(--text-primary);
-    margin-bottom: 1rem;
-    font-size: 1.3rem;
-}
-
-.thumbnail-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.thumbnail-item {
-    width: 100%;
-    aspect-ratio: 1/1;
-    border: 2px solid transparent;
-    border-radius: 8px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.thumbnail-item:hover {
-    border-color: #007bff;
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-.thumbnail-item.selected {
-    border-color: #28a745;
-    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.3);
-}
-
-.thumbnail-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* 拍摄地图页面样式 */
-.map-page {
-    width: 100%;
-}
-
-.map-toolbar-card {
-    background-color: var(--card-bg);
-    border-radius: 8px;
-    padding: 1.5rem;
-    border: 1px solid var(--border-color);
-}
-
-.map-toolbar {
-    margin-top: 1rem;
-}
-
-.map-toolbar button {
-    margin-right: 10px;
-    margin-bottom: 10px;
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.map-toolbar button:hover {
-    background-color: #0056b3;
-}
-
-.map-card {
-  margin-top: 16px;
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
-  border: 1px solid var(--border-color);
-}
-
-#shootMap {
-  width: 100%;
-  height: 480px;      /* 固定高度 */
-  min-height: 360px;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-/* 画廊样式 */
-.gallery-controls {
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background-color: var(--card-bg);
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-}
-
-/* Additional dark mode styles for various cards */
-body.dark-mode .photo-card {
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-}
-
-body.dark-mode .card {
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-}
-
-body.dark-mode .gallery-item {
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-}
-
-body.dark-mode .upload-section {
-  background-color: var(--card-bg);
-  border: 2px dashed var(--border-color);
-}
-
-body.dark-mode .map-toolbar-card {
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-}
-
-body.dark-mode .map-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-}
-
-body.dark-mode .exhibition-main {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-}
-
-body.dark-mode .exhibition-canvas {
-  background: #1a1a1a; /* Darker background for exhibition canvas */
-}
-
-body.dark-mode .work-caption {
-  color: var(--text-primary);
-}
-
-.filter-section h3 {
-    margin-bottom: 1rem;
-    color: var(--text-primary);
-}
-
-.filter-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.filter-btn {
-    padding: 6px 12px;
-    background-color: var(--bg-secondary);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-}
-
-.filter-btn:hover,
-.filter-btn.active {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-}
-
-.gallery-wall {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 2rem;
-    padding: 2rem 0;
-    min-height: 500px;
-}
-
-.gallery-item {
-    position: relative;
-    overflow: hidden;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-    aspect-ratio: 3/4;
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-}
-
-.gallery-item:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-    cursor: pointer;
-}
-
-.gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.3s ease;
-}
-
-.gallery-item:hover img {
-    transform: scale(1.05);
-}
-
-.gallery-frame {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border: 15px solid #f5f5f5;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.gallery-info {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(transparent, rgba(0,0,0,0.7));
-    color: white;
-    padding: 20px 10px 10px;
-    transform: translateY(100%);
-    transition: transform 0.3s ease;
-}
-
-.gallery-item:hover .gallery-info {
-    transform: translateY(0);
-}
-
-.gallery-title {
-    font-weight: bold;
-    margin: 0 0 5px 0;
-    font-size: 0.9rem;
-}
-
-.gallery-desc {
-    font-size: 0.8rem;
-    margin: 0;
-}
-
-/* 展厅页面样式 */
-.exhibition-page {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 24px;
-  margin-top: 24px;
-}
-
-.exhibition-sidebar {
-  background: #FFFFFF;
-  border-radius: 12px;
-  padding: 16px 20px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  max-height: 650px;
-  overflow-y: auto;
-  border: 1px solid #DDDDDD;
-}
-
-.hint {
-  color: var(--text-secondary);
-  font-size: 14px;
-  margin-bottom: 16px;
-}
-
-.photo-list {
-  max-height: 550px;
-  overflow-y: auto;
-}
-
-.photo-list-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  padding: 8px;
-  border: 1px solid #DDDDDD;
-  border-radius: 12px;
-  background: #FFFFFF;
-}
-
-.photo-list-thumb {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 6px;
-}
-
-.photo-list-title {
-  flex: 1;
-  font-size: 13px;
-  color: var(--text-primary);
-  word-break: break-word;
-}
-
-.photo-list-item button {
-  font-size: 12px;
-  padding: 6px 14px;
-  background-color: #FFFFFF;
-  color: #333333;
-  border: 1px solid #CCCCCC;
-  border-radius: 999px;
-  cursor: pointer;
-}
-
-.photo-list-item button:hover {
-  background-color: #F5F5F5;
-  border-color: #BBBBBB;
-}
-
-.exhibition-main {
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 16px 20px 24px;
-  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
-  border: 1px solid var(--border-color);
-}
-
-.exhibition-toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.exhibition-toolbar span {
-  font-size: 18px;
-  font-weight: bold;
-  color: var(--text-primary);
-}
-
-.exhibition-toolbar .actions button {
-  margin-left: 8px;
-  padding: 8px 18px;
-  border: 1px solid #CCCCCC;
-  border-radius: 999px;
-  font-size: 14px;
-  cursor: pointer;
-  background-color: #FFFFFF;
-  color: #333333;
-  transition: all 0.2s ease;
-}
-
-.exhibition-toolbar .actions button:hover {
-  background-color: #F5F5F5;
-  border-color: #BBBBBB;
-}
-
-.exhibition-toolbar .actions button:last-child {
-  background-color: #FFFFFF;
-  color: #666666;  /* Slightly darker text for danger action */
-  border: 1px solid #CCCCCC;
-}
-
-.exhibition-toolbar .actions button:last-child:hover {
-  background-color: #F5F5F5;
-  border-color: #BBBBBB;
-}
-
-/* Override photography-style for exhibition buttons to ensure unified styling */
-.exhibition-toolbar button {
-  padding: 8px 14px !important;
-  border: none !important;
-  border-radius: 8px !important;
-  background-color: #e6e6e6 !important;
-  color: #111111 !important;
-  font-size: 14px !important;
-  cursor: pointer !important;
-  transition: background-color 0.2s ease !important;
-}
-
-body.dark-mode .exhibition-toolbar button {
-  background-color: #2a2a2a !important;
-  color: #FFFFFF !important;
-}
-
-.exhibition-canvas {
-  position: relative;
-  width: 100%;
-  height: 600px;              /* 固定高度画布 */
-  border-radius: 12px;
-  background: #f1f5f9;        /* 仿展墙淡灰 */
-  overflow: hidden;
-  display: block;
-  z-index: 10;
-}
-
-.exhibition-placeholder {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  color: #9ca3af;
-  font-size: 14px;
-  text-align: center;
-}
-
-.work-item {
-  position: absolute;
-  cursor: move;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  border-radius: 12px;
-  background: #FFFFFF;
-  border: 1px solid #DDDDDD;
-  overflow: hidden;
-  min-width: 100px;
-  z-index: 15;
-  opacity: 1;
-  display: block;
-}
-
-.work-item img {
-  display: block !important;
-  width: 100%;
-  height: auto;
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-.work-item.dragging {
-  opacity: 0.8;
-  z-index: 1000;
-}
-
-.work-caption {
-  font-size: 12px;
-  padding: 4px 6px 6px;
-  color: #374151;
-  cursor: text;
-}
-
-.work-controls {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  display: flex;
-  gap: 4px;
-  z-index: 10;
-}
-
-.work-controls button {
-  font-size: 10px;
-  padding: 2px 4px;
-  background-color: rgba(0, 0, 0, 0.15);
-  color: #333333;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-.work-controls button:hover {
-  background-color: rgba(0, 0, 0, 0.25);
-}
-
-.text-item {
-  position: absolute;
-  cursor: move;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
-  border-radius: 8px;
-  background: #fff;
-  overflow: hidden;
-  min-width: 100px;
-  border: 1px dashed #ccc;
-}
-
-.text-item.font-small .text-content { font-size: 12px; }
-.text-item.font-medium .text-content { font-size: 14px; }
-.text-item.font-large .text-content { font-size: 18px; }
-
-.text-content {
-  font-size: 14px;
-  padding: 10px;
-  color: #374151;
-  cursor: text;
-  min-height: 40px;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-
-.text-controls {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  display: flex;
-  gap: 4px;
-  z-index: 10;
-}
-
-.text-controls button {
-  font-size: 10px;
-  padding: 2px 4px;
-  background-color: rgba(0, 0, 0, 0.15);
-  color: #333333;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-.text-controls button:hover {
-  background-color: rgba(0, 0, 0, 0.25);
-}
-
-/* 登录弹窗样式 - 安全版 */
-.login-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 4500;
-    display: none; /* 初始隐藏 */
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    pointer-events: none; /* 初始不拦截点击 */
-}
-
-.login-overlay.visible {
-    display: flex; /* 显示时才flex */
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto; /* 显示时才拦截点击 */
-}
-
-.login-modal {
-    background: transparent;
-    pointer-events: auto; /* 弹窗内容可点击 */
-}
-
-.login-modal-content {
-    position: relative;
-    width: 90%;
-    max-width: 450px;
-    padding: 2rem;
-    background-color: var(--card-bg);
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    border: 1px solid var(--border-color);
-    transform: scale(0.7);
-    opacity: 0;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.login-modal-content.visible {
-    transform: scale(1);
-    opacity: 1;
-}
-
-.login-close {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    color: var(--text-primary);
-    z-index: 1000;
-    background: none;
-    border: none;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: background-color 0.2s ease;
-}
-
-.login-close:hover {
-    background-color: var(--hover-bg);
-}
-
-/* Login 页面背景 */
-#login {
-    background-image: url('./背景.JPG');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    min-height: 80vh;
-    position: relative;
-}
-
-#login::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0); /* Transparent to avoid gray overlay */
-    z-index: 1;
-}
-
-#login > .container {
-    position: relative;
-    z-index: 2;
-}
-
-#login h1, #login p {
-    color: white;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-}
-
-/* Homepage overlay with semi-transparent gray for better text readability */
-body.page-home::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.25); /* Semi-transparent gray overlay */
-    z-index: 1;
-    pointer-events: none; /* Prevent the overlay from blocking interactions */
-}
-
-/* Keep same overlay in dark mode */
-body.dark-mode.page-home::before {
-    background-color: rgba(0, 0, 0, 0.25); /* Same overlay in dark mode */
-}
-
-body.page-home > .container {
-    position: relative;
-    z-index: 2; /* Ensure content is above the overlay */
-    color: var(--text-primary); /* Use theme color */
-}
-
-body.page-home h1 {
-    color: #ffffff; /* White in both light and dark modes */
-    font-size: 4rem; /* 64px */
-    font-weight: 800; /* ExtraBold */
-    text-shadow: 0 4px 8px rgba(0,0,0,0.7);
-    position: relative;
-    z-index: 2; /* Ensure above overlay */
-    font-family: 'Inter', 'Source Han Sans CN', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    letter-spacing: 0.02em;
-}
-
-/* Specific styling for homepage main title */
-.home-title {
-    color: #ffffff;
-    font-size: 4rem; /* 64px */
-    font-weight: 800; /* ExtraBold */
-    text-shadow: 0 4px 8px rgba(0,0,0,0.7);
-    position: relative;
-    z-index: 2; /* Ensure above overlay */
-    font-family: 'Inter', 'Source Han Sans CN', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    letter-spacing: 0.02em;
-}
-
-body.page-home p {
-    color: #FFFFFF !important; /* Pure white for better readability */
-    font-size: 1.6rem; /* Adjusted size */
-    font-weight: 400; /* Regular */
-    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
-    position: relative;
-    z-index: 2; /* Ensure above overlay */
-    font-family: 'Inter', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    letter-spacing: 0.01em;
-}
-
-/* Specific styling for homepage subtitle - always white with shadow */
-.home-subtitle {
-    color: #FFFFFF !important; /* Pure white regardless of theme */
-    font-size: 1.6rem; /* Adjusted size */
-    font-weight: 400; /* Regular */
-    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
-    position: relative;
-    z-index: 2; /* Ensure above overlay */
-    font-family: 'Inter', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    letter-spacing: 0.01em;
-}
-
-/* Remove text shadows from homepage cards */
-#home .card h3,
-#home .card p {
-    text-shadow: none;
-}
-
-/* Ensure homepage cards stay above the background overlay */
-#home .card {
-    position: relative;
-    z-index: 3; /* Higher than the overlay */
-}
-
-/* Specific styling for homepage subtitle */
-.home-subtitle {
-    color: var(--text-secondary);
-}
-
-body.dark-mode .home-subtitle {
-    color: #ffffff;
-}
-
-/* Disabled button styles for guest users */
-.disabled-when-guest {
-    opacity: 0.5 !important;
-    cursor: not-allowed !important;
-    pointer-events: auto !important; /* Allow clicks to be intercepted by JS */
-}
-
-body.dark-mode .disabled-when-guest {
-    opacity: 0.4 !important;
-}
-
-.auth-form {
-    background-color: rgba(255, 255, 255, 0.9); /* 表单背景更清晰 */
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
-}
-
-/* Photography Tool-Style Button Styles */
-.btn {
-  padding: 8px 16px;
-  border: 1px solid #666;
-  border-radius: 6px;
-  background: transparent;
-  color: #666;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  text-decoration: none;
-  display: inline-block;
-  text-align: center;
-}
-
-.btn:hover {
-  background: #111;
-  color: #fff;
-  border-color: #111;
-}
-
-.btn:active {
-  background: #222;
-  border-color: #222;
-  color: #fff;
-}
-
-.btn:disabled {
-  border-color: #aaa;
-  color: #aaa;
-  cursor: not-allowed;
-}
-
-/* Apply photography-style to specific buttons */
-.photo-delete-btn,
-.save-tags-btn,
-.add-to-exhibition,
-.work-controls button,
-.text-controls button,
-.exhibition-toolbar button,
-.upload-section button,
-#exif-lab button,
-#photo-map button,
-.auth-form button,
-.theme-toggle button,
-.login-close,
-.photo-preview img {
-  padding: 8px 16px;
-  border: 1px solid #666;
-  border-radius: 6px;
-  background: transparent;
-  color: #666;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  text-decoration: none;
-  display: inline-block;
-  text-align: center;
-}
-
-.nav-link {
-  padding: 6px 12px;
-  margin: 0 8px;
-  border: none;
-  background: transparent;
-  border-radius: 0;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  font-size: 14px;
-  font-weight: 500;
-  color: #444444;
-  text-decoration: none;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  display: inline-block;
-  text-align: center;
-}
-
-.photo-delete-btn:hover,
-.save-tags-btn:hover,
-.add-to-exhibition:hover,
-.work-controls button:hover,
-.text-controls button:hover,
-.exhibition-toolbar button:hover,
-.upload-section button:hover,
-#exif-lab button:hover,
-#photo-map button:hover,
-.auth-form button:hover,
-.theme-toggle button:hover,
-.login-close:hover {
-  background: #111;
-  color: #fff;
-  border-color: #111;
-}
-
-.nav-link:hover {
-  background-color: rgba(0,0,0,0.05);
-  color: #222222;
-}
-
-.photo-delete-btn:active,
-.save-tags-btn:active,
-.add-to-exhibition:active,
-.work-controls button:active,
-.text-controls button:active,
-.exhibition-toolbar button:active,
-.upload-section button:active,
-#exif-lab button:active,
-#photo-map button:active,
-.auth-form button:active,
-.theme-toggle button:active,
-.login-close:active {
-  background: #222;
-  border-color: #222;
-  color: #fff;
-}
-
-.nav-link:active {
-  background: rgba(0,0,0,0.1);
-  color: #222222;
-}
-
-/* Specific overrides for certain buttons */
-.photo-delete-btn {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  padding: 4px 8px;
-  font-size: 12px;
-  z-index: 10;
-}
-
-/* Library buttons */
-.add-exhibit,
-.view-meta {
-  margin: 5px;
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-body.dark-mode .add-exhibit,
-body.dark-mode .view-meta {
-  background-color: var(--card-bg);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-}
-
-body.dark-mode .add-exhibit:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Unified card styles for gallery */
-.photo-card {
-  background: var(--card-bg) !important;
-  color: var(--text-primary) !important;
-  border: 1px solid var(--border-color) !important;
-}
-
-.photo-card h3,
-.photo-card p {
-  color: var(--text-primary) !important;
-}
-
-/* Unified button styles for cards */
-.photo-card button {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 6px 10px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.photo-card button:hover {
-  background: var(--hover-bg);
-}
-
-.work-controls button,
-.text-controls button {
-  font-size: 10px;
-  padding: 2px 4px;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: white;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-.work-controls button:hover,
-.text-controls button:hover {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    .nav-container {
-        flex-direction: column;
-        gap: 1rem;
+    /* 导航栏 */
+    .main-nav {
+        padding: 0 16px !important;
+        height: 56px !important;
     }
     
     .nav-links {
-        gap: 1rem;
+        gap: 8px !important;
+    }
+    
+    .nav-link {
+        font-size: 12px !important;
+        padding: 4px 8px !important;
+        margin: 0 4px !important;
+    }
+    
+    .user-dropdown-btn {
+        font-size: 12px !important;
+        padding: 4px 8px !important;
+    }
+    
+    .theme-toggle {
+        font-size: 16px !important;
+        padding: 4px !important;
+    }
+    
+    /* 容器 */
+    .container {
+        padding: 0 16px !important;
+        max-width: 100% !important;
+    }
+    
+    /* 首页 */
+    .home-title {
+        font-size: 32px !important;
+        line-height: 1.2 !important;
+    }
+    
+    .home-subtitle {
+        font-size: 16px !important;
     }
     
     .card-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
     }
     
-    .container {
-        padding: 10px;
+    .card {
+        padding: 20px !important;
+    }
+    
+    .card h3 {
+        font-size: 18px !important;
+    }
+    
+    .card p {
+        font-size: 14px !important;
+    }
+    
+    /* 作品库 */
+    #library h1 {
+        font-size: 24px !important;
+    }
+    
+    #library p {
+        font-size: 14px !important;
+    }
+    
+    .tag-filter-container-wrapper {
+        margin-bottom: 12px !important;
+    }
+    
+    .tag-filter-container {
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+    }
+    
+    .tag-button {
+        font-size: 12px !important;
+        padding: 4px 10px !important;
+    }
+    
+    .card-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+    
+    .photo-card {
+        margin: 0 !important;
+    }
+    
+    .photo-card h3 {
+        font-size: 16px !important;
+    }
+    
+    .photo-card button {
+        font-size: 11px !important;
+        padding: 4px 8px !important;
+    }
+    
+    /* 表单 */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea {
+        font-size: 14px !important;
+        padding: 10px !important;
+    }
+    
+    button {
+        font-size: 14px !important;
+        padding: 10px 20px !important;
+    }
+    
+    /* 登录弹窗 */
+    .login-modal-content {
+        width: 95% !important;
+        max-width: none !important;
+        padding: 1.5rem !important;
+    }
+    
+    .login-close {
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 18px !important;
+    }
+    
+    /* EXIF分析页面 */
+    .exif-tools {
+        flex-direction: column !important;
+        gap: 16px !important;
+    }
+    
+    .upload-section,
+    .library-sync-section {
+        width: 100% !important;
+    }
+    
+    .upload-row {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+    
+    /* 拍摄地图 */
+    #shootMap {
+        height: 400px !important;
+    }
+    
+    .map-toolbar {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+    
+    .map-toolbar button {
+        width: 100% !important;
+    }
+    
+    /* 地点弹窗 */
+    #add-location-modal .modal-content {
+        width: 95% !important;
+        max-width: none !important;
+        padding: 16px !important;
+    }
+    
+    /* 线上展厅 */
+    .exhibition-canvas {
+        min-height: 400px !important;
+    }
+    
+    .exhibition-sidebar {
+        width: 100% !important;
+        max-width: none !important;
+        margin-bottom: 16px !important;
+    }
+    
+    .exhibition-toolbar {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+    
+    .exhibition-toolbar .actions {
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+    
+    .exhibition-toolbar button {
+        width: 100% !important;
     }
 }
 
-.login-area {
-    display: inline-block;
+/* 手机设备 (480px 以下) */
+@media (max-width: 480px) {
+    /* 导航栏 */
+    .main-nav {
+        padding: 0 12px !important;
+    }
+    
+    .nav-links {
+        gap: 4px !important;
+    }
+    
+    .nav-link {
+        font-size: 11px !important;
+        padding: 4px 6px !important;
+        margin: 0 2px !important;
+    }
+    
+    /* 首页 */
+    .home-title {
+        font-size: 28px !important;
+    }
+    
+    .home-subtitle {
+        font-size: 14px !important;
+    }
+    
+    /* 作品库 */
+    #library h1 {
+        font-size: 20px !important;
+    }
+    
+    .tag-button {
+        font-size: 11px !important;
+        padding: 3px 8px !important;
+    }
+    
+    .photo-card {
+        padding: 8px !important;
+    }
+    
+    .photo-card h3 {
+        font-size: 14px !important;
+    }
+    
+    /* 登录弹窗 */
+    .login-modal-content {
+        padding: 1rem !important;
+    }
+    
+    .login-modal-content h3 {
+        font-size: 18px !important;
+    }
+    
+    /* 编辑表单 */
+    .edit-form {
+        min-width: 240px !important;
+        padding: 16px !important;
+    }
+    
+    .edit-form h4 {
+        font-size: 13px !important;
+    }
+    
+    .edit-form .edit-input {
+        font-size: 12px !important;
+        padding: 6px 10px !important;
+    }
+    
+    /* 参数详情 */
+    .params-detail {
+        min-width: 220px !important;
+        padding: 12px !important;
+    }
+    
+    .params-detail h4 {
+        font-size: 13px !important;
+    }
+    
+    .params-detail p {
+        font-size: 11px !important;
+    }
 }
 
-/* Photography Tool-Style Button Styles */
-.btn {
-  padding: 8px 16px;
-  border: 1px solid #666;
-  border-radius: 6px;
-  background: transparent;
-  color: #666;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  text-decoration: none;
-  display: inline-block;
-  text-align: center;
+/* 小屏手机 (360px 以下) */
+@media (max-width: 360px) {
+    .nav-link {
+        font-size: 10px !important;
+        padding: 3px 4px !important;
+    }
+    
+    .home-title {
+        font-size: 24px !important;
+    }
+    
+    .home-subtitle {
+        font-size: 13px !important;
+    }
+    
+    .tag-button {
+        font-size: 10px !important;
+        padding: 2px 6px !important;
+    }
+    
+    .edit-form,
+    .params-detail {
+        min-width: 200px !important;
+    }
 }
 
-.btn:hover {
-  background: #111;
-  color: #fff;
-  border-color: #111;
+/* 横屏模式优化 */
+@media (max-width: 768px) and (orientation: landscape) {
+    #shootMap {
+        height: 300px !important;
+    }
+    
+    .exhibition-canvas {
+        min-height: 300px !important;
+    }
 }
 
-.btn:active {
-  background: #222;
-  border-color: #222;
-  color: #fff;
-}
-
-.btn:disabled {
-  border-color: #aaa;
-  color: #aaa;
-  cursor: not-allowed;
-}
-
-/* Apply photography-style to specific buttons */
-.photo-delete-btn,
-.save-tags-btn,
-.add-to-exhibition,
-.work-controls button,
-.text-controls button,
-.exhibition-toolbar button,
-.upload-section button,
-#exif-lab button,
-#photo-map button,
-.auth-form button,
-.theme-toggle button,
-.login-close,
-.photo-preview img {
-  padding: 8px 16px;
-  border: 1px solid #666;
-  border-radius: 6px;
-  background: transparent;
-  color: #666;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  text-decoration: none;
-  display: inline-block;
-  text-align: center;
-}
-
-.nav-link {
-  padding: 6px 12px;
-  margin: 0 8px;
-  border: none;
-  background: transparent;
-  border-radius: 0;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  font-size: 14px;
-  font-weight: 500;
-  color: #444444;
-  text-decoration: none;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  display: inline-block;
-  text-align: center;
-}
-
-.photo-delete-btn:hover,
-.save-tags-btn:hover,
-.add-to-exhibition:hover,
-.work-controls button:hover,
-.text-controls button:hover,
-.exhibition-toolbar button:hover,
-.upload-section button:hover,
-#exif-lab button:hover,
-#photo-map button:hover,
-.auth-form button:hover,
-.theme-toggle button:hover,
-.login-close:hover {
-  background: #111;
-  color: #fff;
-  border-color: #111;
-}
-
-.nav-link:hover {
-  background-color: rgba(0,0,0,0.05);
-  color: #222222;
-}
-
-.photo-delete-btn:active,
-.save-tags-btn:active,
-.add-to-exhibition:active,
-.work-controls button:active,
-.text-controls button:active,
-.exhibition-toolbar button:active,
-.upload-section button:active,
-#exif-lab button:active,
-#photo-map button:active,
-.auth-form button:active,
-.theme-toggle button:active,
-.login-close:active {
-  background: #222;
-  border-color: #222;
-  color: #fff;
-}
-
-.nav-link:active {
-  background: rgba(0,0,0,0.1);
-  color: #222222;
-}
-
-/* Specific overrides for certain buttons */
-.photo-delete-btn {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  padding: 4px 8px;
-  font-size: 12px;
-  z-index: 10;
-}
-
-/* Library buttons */
-.add-exhibit,
-.view-meta {
-  margin: 5px;
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-body.dark-mode .add-exhibit,
-body.dark-mode .view-meta {
-  background-color: var(--card-bg);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-}
-
-body.dark-mode .add-exhibit:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Unified card styles for gallery */
-.photo-card {
-  background: var(--card-bg) !important;
-  color: var(--text-primary) !important;
-  border: 1px solid var(--border-color) !important;
-}
-
-.photo-card h3,
-.photo-card p {
-  color: var(--text-primary) !important;
-}
-
-/* Unified button styles for cards */
-.photo-card button {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 6px 10px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.photo-card button:hover {
-  background: var(--hover-bg);
-}
-
-.work-controls button,
-.text-controls button {
-  font-size: 10px;
-  padding: 2px 4px;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: white;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-.work-controls button:hover,
-.text-controls button:hover {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
-/* Tag Filter Styles */
-.tag-filter-container {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
-    margin: 16px 0;
-    padding: 12px;
-    background-color: var(--bg-secondary);
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-}
-
-.tag-filter-label {
-    font-weight: 500;
-    color: var(--text-primary);
-    margin-right: 8px;
-    white-space: nowrap;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    font-size: 0.8125rem; /* 13px */
-}
-
-.tag-button {
-    padding: 6px 16px;
-    background-color: #FFFFFF;
-    color: #333333;
-    border: 1px solid #CCCCCC;
-    border-radius: 999px;
-    cursor: pointer;
-    font-size: 14px;
-    font-family: 'JetBrains Mono', monospace;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-}
-
-.tag-button:hover {
-    background-color: #F5F5F5;
-    border-color: #BBBBBB;
-    color: #111111;
-}
-
-.tag-button.selected {
-    background-color: #F0F0F0;
-    color: #111111;
-    border: 1px solid #BBBBBB;
-}
-
-.tag-button.selected:hover {
-    background-color: #E0E0E0;
-    border-color: #AAAAAA;
-}
-
-/* Dark mode styles for tag buttons */
-body.dark-mode .tag-button {
-    background-color: #1E1E1E;
-    color: #CCCCCC;
-    border: 1px solid #555555;
-}
-
-body.dark-mode .tag-button:hover {
-    background-color: #2A2A2A;
-    border-color: #666666;
-    color: #EEEEEE;
-}
-
-body.dark-mode .tag-button.selected {
-    background-color: #333333;
-    color: #EEEEEE;
-    border: 1px solid #666666;
-}
-
-body.dark-mode .tag-button.selected:hover {
-    background-color: #444444;
-    border-color: #777777;
-}
-
-.no-tags-message {
-    color: var(--text-secondary);
-    font-style: italic;
-    margin: 0;
-}
-
-.tag-filter-container-wrapper {
-    margin-bottom: 16px;
-}
-
-/* ===== 修复登录叉号错位 ===== */
-.login-close {
-    position: absolute !important;
-    top: 8px !important;
-    right: 8px !important;
-    font-size: 20px !important;
-    width: 24px !important;
-    height: 24px !important;
-    line-height: 24px !important;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    border: none !important;
-    padding: 0 !important;
-    background: none !important;
-    color: var(--text-primary) !important;
-    cursor: pointer;
-    border-radius: 50%;
-    z-index: 2000;
-}
-
-/* hover 效果 */
-.login-close:hover {
-    background: var(--hover-bg) !important;
-}
-
-/* Override dark mode style for "清空展厅" button to match other buttons */
-body.dark-mode .exhibition-toolbar .actions button:last-child {
-  background-color: #2a2a2a !important;
-  color: #FFFFFF !important;
-  border: 1px solid #444444 !important;
-}
-
-body.dark-mode .exhibition-toolbar .actions button:last-child:hover {
-  background-color: #3a3a3a !important;
-}
-
-/* ==================== VISUAL CONSISTENCY FIXES ==================== */
-
-/* Control button styles - unified across themes */
-.work-controls button,
-.text-controls button {
-    width: 26px;
-    height: 26px;
-    padding: 0;
-    font-size: 13px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    background: rgba(255,255,255,0.8);
-    color: #222;
-    border: 1px solid rgba(0,0,0,0.2);
-    transition: background 0.2s ease;
-}
-
-/* Unified work controls styles for both light and dark modes */
-.work-controls {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    display: flex;
-    gap: 6px;
-    z-index: 20;
-}
-
-.work-controls button {
-    width: 24px;
-    height: 24px;
-    padding: 0;
-    border-radius: 4px;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    line-height: 1;
-    border: none;
-    background-color: rgba(0, 0, 0, 0.65);
-    color: #ffffff;
-}
-
-.work-controls button:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-.text-controls {
-    position: absolute;
-    top: -32px;
-    right: 0;
-    display: flex;
-    gap: 6px;
-    z-index: 50;
-}
-
-/* 文字编辑控件（小 中 大 删）——独立样式 */
-.text-controls button {
-    width: auto !important;        /* 不使用 24×24 的图片按钮尺寸 */
-    height: 26px !important;
-    padding: 0 10px !important;
-    border-radius: 4px !important;
-    font-size: 12px !important;
-    background-color: rgba(0,0,0,0.1);
-    color: var(--text-primary);
-    border: 1px solid rgba(0,0,0,0.2);
-}
-
-/* 深色模式下的文字控制按钮 */
-body.dark-mode .text-controls button {
-    background-color: rgba(255,255,255,0.12) !important;
-    color: #fff !important;
-    border: 1px solid rgba(255,255,255,0.24) !important;
-}
-
-/* Image layout consistency */
-.work-img,
-.gallery-photo,
-.photo-thumbnail {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 10px;
-    display: block;
-}
-
-.draggable-image {
-    object-fit: contain;
-    max-width: 100%;
-    max-height: 100%;
-}
-
-/* Button size consistency */
-button,
-.btn,
-input[type="button"],
-input[type="submit"],
-.exhibition-toolbar .actions button {
-    height: 32px;
-    padding: 0 12px;
-    border-radius: 6px;
-    font-size: 14px;
-}
-
-/* Dark mode button color consistency */
-body.dark-mode button,
-body.dark-mode .btn,
-body.dark-mode input[type="button"],
-body.dark-mode input[type="submit"],
-body.dark-mode .exhibition-toolbar .actions button {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-}
-
-/* Modal and popup consistency */
-body.dark-mode .modal-content,
-body.dark-mode .login-modal-content,
-body.dark-mode .photo-popup,
-body.dark-mode .album-popup {
-    background-color: #ffffff !important;
-    color: #111111 !important;
-    border: 1px solid #e5e5e5 !important;
-}
-
-/* Overlay consistency */
-body.dark-mode .modal-overlay,
-body.dark-mode #login-overlay {
-    background: rgba(0,0,0,0.5) !important;
-}
-
-/* Text editor box visibility fix in dark mode */
-body.dark-mode .text-item {
-    background-color: #ffffff !important;
-    color: #111111 !important;
-    border: 1px dashed #999999 !important;
-    border-radius: 10px !important;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.25) !important;
-}
-
-body.dark-mode .text-content {
-    background-color: #ffffff !important;
-    color: #111111 !important;
-    padding: 12px !important;
-}
-
-
-
-/* Final override to ensure work controls buttons are consistent in both themes */
-body.dark-mode .work-controls button {
-    width: 24px !important;
-    height: 24px !important;
-    padding: 0 !important;
-    border-radius: 4px !important;
-    font-size: 12px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    cursor: pointer !important;
-    line-height: 1 !important;
-    border: none !important;
-    background-color: rgba(0, 0, 0, 0.65) !important;
-    color: #ffffff !important;
-}
-
-body.dark-mode .work-controls button:hover {
-    background-color: rgba(0, 0, 0, 0.8) !important;
+/* 触摸设备优化 */
+@media (hover: none) and (pointer: coarse) {
+    button {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+    
+    .nav-link {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+    
+    .tag-button {
+        min-height: 36px !important;
+        min-width: 60px !important;
+    }
 }

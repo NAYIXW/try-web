@@ -7,8 +7,24 @@ const loginOverlay = document.getElementById('login-overlay');
 const loginClose = document.getElementById('login-close');
 const authFormModal = document.getElementById('auth-form-modal');
 
+// 预加载背景图
+function preloadBackgroundImage() {
+    const bgImage = new Image();
+    bgImage.src = './背景_optimized.jpg';
+    bgImage.onload = function() {
+        document.body.classList.add('bg-loaded');
+    };
+    return bgImage;
+}
+
 // 应用初始化
 document.addEventListener('DOMContentLoaded', function() {
+    // 设置首页body类以显示背景图
+    setPageBodyClass('home');
+    
+    // 预加载背景图
+    preloadBackgroundImage();
+    
     // 加载主题偏好
     loadThemePreference();
     
@@ -23,6 +39,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 设置登录表单
     setupLoginForm();
+    
+    // 添加全局登录检查
+    addGlobalLoginChecks();
     
     // 设置示例作品库
     setupSampleLibrary();
@@ -71,6 +90,13 @@ function setupNavigation() {
                 e.preventDefault();
                 
                 const targetSection = this.getAttribute('data-section');
+                
+                // 检查是否需要登录（首页和登录页除外）
+                const requiresLogin = targetSection !== 'home' && targetSection !== 'login';
+                if (requiresLogin && !isLoggedIn()) {
+                    requireLogin('访问该页面');
+                    return;
+                }
                 
                 // 隐藏所有section
                 sections.forEach(section => {
@@ -160,6 +186,11 @@ function setPageBodyClass(pageName) {
 
 // 设置登录弹窗
 function setupLoginModal() {
+    // 在函数内部获取元素，确保DOM已加载
+    const loginClose = document.getElementById('login-close');
+    const loginOverlay = document.getElementById('login-overlay');
+    const loginLink = document.querySelector('[data-section="login"]');
+    
     if (!loginLink || !loginClose || !loginOverlay) return; // 元素不存在则跳过功能
     
     // 为登录链接设置弹窗功能
@@ -188,17 +219,25 @@ function setupLoginModal() {
 
 // 打开登录弹窗
 function openLoginModal() {
+    const loginOverlay = document.getElementById('login-overlay');
+    if (!loginOverlay) return;
+    
     loginOverlay.style.display = 'flex';
     setTimeout(() => {
         loginOverlay.classList.add('visible');
-        document.querySelector('.login-modal-content').classList.add('visible');
+        const modalContent = document.querySelector('.login-modal-content');
+        if (modalContent) modalContent.classList.add('visible');
     }, 10);
 }
 
 // 关闭登录弹窗
 function closeLoginModal() {
+    const loginOverlay = document.getElementById('login-overlay');
+    if (!loginOverlay) return;
+    
     loginOverlay.classList.remove('visible');
-    document.querySelector('.login-modal-content').classList.remove('visible');
+    const modalContent = document.querySelector('.login-modal-content');
+    if (modalContent) modalContent.classList.remove('visible');
     
     setTimeout(() => {
         loginOverlay.style.display = 'none';
@@ -555,7 +594,9 @@ function setupSampleLibrary() {
   }
   
   // Add photo to exhibition
-  function addToExhibition(workId) {
+function addToExhibition(workId) {
+    if (!requireLogin('添加作品到展厅')) return;
+    
     const work = works.find(w => w.id === workId);
     if (!work) return;
     
@@ -675,7 +716,8 @@ function loadLibraryPhotos() {
                 <p class="work-tag">${work.tag}</p>
                 <button class="add-exhibit" data-id="${work.id}" ${buttonDisabled} style="${buttonStyle}">${buttonText}</button>
                 <button class="view-meta" data-id="${work.id}">显示参数</button>
-                <div class="params-detail" id="params-${work.id}" style="display: none; position: absolute; top: 10px; right: 10px; background: var(--card-bg); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 100;">
+                <button class="edit-work" data-id="${work.id}">编辑</button>
+                <div class="params-detail" id="params-${work.id}" style="display: none;">
                     <h4>拍摄参数</h4>
                     <p><strong>相机:</strong> ${work.params.camera}</p>
                     <p><strong>镜头:</strong> ${work.params.lens}</p>
@@ -684,7 +726,22 @@ function loadLibraryPhotos() {
                     <p><strong>ISO:</strong> ${work.params.iso}</p>
                     <p><strong>焦距:</strong> ${work.params.focal}</p>
                     <p><strong>地点:</strong> ${work.params.location}</p>
-                    <button class="close-params" data-id="${work.id}" style="position: absolute; top: 5px; right: 5px; background: #dc3545; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer;">×</button>
+                    <button class="close-params" data-id="${work.id}">×</button>
+                </div>
+                <div class="edit-form" id="edit-form-${work.id}" style="display: none;">
+                    <h4>编辑作品</h4>
+                    <div class="form-group">
+                        <label for="edit-title-${work.id}">作品名称:</label>
+                        <input type="text" id="edit-title-${work.id}" value="${work.title}" class="edit-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-tag-${work.id}">标签:</label>
+                        <input type="text" id="edit-tag-${work.id}" value="${work.tag}" class="edit-input">
+                    </div>
+                    <div class="edit-actions">
+                        <button class="save-edit" data-id="${work.id}">保存</button>
+                        <button class="cancel-edit" data-id="${work.id}">取消</button>
+                    </div>
                 </div>
             `;
             libraryGrid.appendChild(workCard);
@@ -700,6 +757,8 @@ function loadLibraryPhotos() {
         
         document.querySelectorAll('.view-meta').forEach(button => {
             button.addEventListener('click', function() {
+                if (!requireLogin('查看参数')) return;
+                
                 const workId = this.getAttribute('data-id');
                 const paramsDetail = document.getElementById(`params-${workId}`);
                 paramsDetail.style.display = paramsDetail.style.display === 'block' ? 'none' : 'block';
@@ -712,6 +771,50 @@ function loadLibraryPhotos() {
                 const workId = this.getAttribute('data-id');
                 const paramsDetail = document.getElementById(`params-${workId}`);
                 paramsDetail.style.display = 'none';
+            });
+        });
+
+        // Add event listeners for edit buttons
+        document.querySelectorAll('.edit-work').forEach(button => {
+            button.addEventListener('click', function() {
+                const workId = this.getAttribute('data-id');
+                const editForm = document.getElementById(`edit-form-${workId}`);
+                const paramsDetail = document.getElementById(`params-${workId}`);
+                
+                // Hide params if visible
+                if (paramsDetail) paramsDetail.style.display = 'none';
+                
+                // Toggle edit form
+                editForm.style.display = editForm.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+
+        // Add event listeners for save edit buttons
+        document.querySelectorAll('.save-edit').forEach(button => {
+            button.addEventListener('click', function() {
+                const workId = this.getAttribute('data-id');
+                const titleInput = document.getElementById(`edit-title-${workId}`);
+                const tagInput = document.getElementById(`edit-tag-${workId}`);
+                
+                const newTitle = titleInput.value.trim();
+                const newTag = tagInput.value.trim();
+                
+                if (newTitle && newTag) {
+                    saveWorkEdit(workId, newTitle, newTag);
+                    const editForm = document.getElementById(`edit-form-${workId}`);
+                    editForm.style.display = 'none';
+                } else {
+                    alert('请填写作品名称和标签');
+                }
+            });
+        });
+
+        // Add event listeners for cancel edit buttons
+        document.querySelectorAll('.cancel-edit').forEach(button => {
+            button.addEventListener('click', function() {
+                const workId = this.getAttribute('data-id');
+                const editForm = document.getElementById(`edit-form-${workId}`);
+                editForm.style.display = 'none';
             });
         });
     }
@@ -784,6 +887,33 @@ function updatePhotoTags(photoId, tagsString) {
         // 无论当前是否激活，都重新加载Library以确保UI同步
         if (typeof loadLibraryPhotos === 'function') {
             loadLibraryPhotos();
+        }
+    }
+}
+
+// 保存作品编辑
+function saveWorkEdit(workId, newTitle, newTag) {
+    if (!requireLogin('保存编辑')) return;
+    
+    const workIndex = works.findIndex(w => w.id === workId);
+    if (workIndex !== -1) {
+        works[workIndex].title = newTitle;
+        works[workIndex].tag = newTag;
+        
+        // 重新渲染作品库
+        loadLibraryPhotos();
+        
+        // 如果作品在展厅中，更新展厅中的标题
+        const exhibitionLayout = loadExhibitionLayout();
+        const exhibitionItem = exhibitionLayout.find(item => item.photoId === workId);
+        if (exhibitionItem) {
+            exhibitionItem.caption = newTitle;
+            saveExhibitionLayout(exhibitionLayout);
+            
+            // 如果当前在展厅页面，更新显示
+            if (document.getElementById('gallery').classList.contains('active')) {
+                renderExhibitionCanvas();
+            }
         }
     }
 }
@@ -1302,6 +1432,39 @@ function isLoggedIn() {
     return localStorage.getItem('userLoggedIn') === 'true';
 }
 
+// 全局登录验证函数
+function requireLogin(actionName) {
+    if (!isLoggedIn()) {
+        openLoginModal();
+        return false;
+    }
+    return true;
+}
+
+// 为所有功能按钮添加登录检查
+function addGlobalLoginChecks() {
+    // 为作品库的所有按钮添加登录检查
+    document.addEventListener('click', function(e) {
+        const target = e.target;
+        
+        // 检查是否是功能按钮（排除登录相关的按钮）
+        const isFeatureButton = target.classList.contains('add-exhibit') ||
+                               target.classList.contains('view-meta') ||
+                               target.classList.contains('edit-work') ||
+                               target.classList.contains('save-edit') ||
+                               target.classList.contains('add-to-gallery-btn') ||
+                               target.classList.contains('view-exif-btn') ||
+                               target.classList.contains('analyze-btn') ||
+                               target.classList.contains('upload-btn');
+        
+        if (isFeatureButton && !isLoggedIn()) {
+            e.preventDefault();
+            e.stopPropagation();
+            requireLogin('使用该功能');
+        }
+    });
+}
+
 // Add event listeners to prevent guest actions
 function addGuestRestrictionListeners() {
     const restrictedButtons = document.querySelectorAll('.disabled-when-guest:not([data-listener-added])');
@@ -1317,9 +1480,7 @@ function addGuestRestrictionListeners() {
             e.preventDefault();
             e.stopPropagation();
             
-            alert('请先登录后再使用该功能');
-            
-            // Open login modal
+            // Open login modal directly without alert
             openLoginModal();
         };
         
@@ -2743,7 +2904,17 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('add-location-modal').style.display = 'none';
     });
     
-    document.getElementById('save-location').addEventListener('click', saveNewLocation);
+    const saveLocationBtn = document.getElementById('save-location');
+    saveLocationBtn.addEventListener('click', saveNewLocation);
+    
+    // Add hover effect for save location button
+    saveLocationBtn.addEventListener('mouseenter', function() {
+        this.style.backgroundColor = '#5a5a5a';
+    });
+    
+    saveLocationBtn.addEventListener('mouseleave', function() {
+        this.style.backgroundColor = '#4a4a4a';
+    });
     
     document.getElementById('cancel-photo').addEventListener('click', function() {
         document.getElementById('add-photo-modal').style.display = 'none';
@@ -2852,6 +3023,24 @@ document.addEventListener('DOMContentLoaded', function() {
         logoutLink.addEventListener('click', function(e) {
             e.preventDefault();
             handleLogout();
+        });
+    }
+    
+    // 额外保障：确保登录弹窗关闭按钮能工作
+    const loginClose = document.getElementById('login-close');
+    const loginOverlay = document.getElementById('login-overlay');
+    
+    if (loginClose && loginOverlay) {
+        // 移除可能存在的旧监听器，添加新的
+        loginClose.onclick = function() {
+            closeLoginModal();
+        };
+        
+        // 确保点击遮罩也能关闭
+        loginOverlay.addEventListener('click', function(e) {
+            if (e.target === loginOverlay) {
+                closeLoginModal();
+            }
         });
     }
 });

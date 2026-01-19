@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LensLab - 摄影平台</title>
+    <link rel="preload" href="./背景_optimized.jpg" as="image">
     <link rel="stylesheet" href="style.css">
     <style>
     .gallery-photo { width: 100%; border-radius: 8px; }
@@ -104,8 +105,10 @@
                 <div class="exif-tools">
                     <!-- 上传图片区域 -->
                     <div class="upload-section">
-                        <input type="file" id="exif-upload" accept="image/*">
-                        <button id="analyze-btn">分析照片</button>
+                        <div class="upload-row">
+                            <input type="file" id="exif-upload" accept="image/*">
+                            <button id="analyze-btn">分析照片</button>
+                        </div>
                     </div>
                     
                     <!-- 作品库同步区域 -->
@@ -205,7 +208,7 @@
                         </div>
                         <div style="display: flex; gap: 10px; justify-content: flex-end;">
                             <button id="cancel-location" style="padding: 8px 16px; background: #ccc; border: none; border-radius: 4px; cursor: pointer;">取消</button>
-                            <button id="save-location" style="padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">保存地点</button>
+                            <button id="save-location" style="padding: 8px 16px; background: #4a4a4a; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.2s ease;">保存地点</button>
                         </div>
                     </div>
                 </div>
@@ -270,7 +273,7 @@
                 
                 <div class="auth-container">
                     <div class="auth-form card">
-                        <h3 id="auth-title">智能登录/注册</h3>
+                        <h3 id="auth-title">登录/注册</h3>
                         <form id="auth-form">
                             <input type="text" id="auth-name" placeholder="姓名（注册时需要）" required>
                             <input type="email" id="auth-email" placeholder="邮箱" required>
@@ -289,7 +292,7 @@
         <div class="login-modal">
             <div class="login-modal-content card">
                 <span id="login-close" class="login-close">&times;</span>
-                <h3 id="auth-title-modal">智能登录/注册</h3>
+                <h3 id="auth-title-modal">登录/注册</h3>
                 <form id="auth-form-modal">
                     <input type="text" id="auth-name-modal" placeholder="姓名（注册时需要）" required>
                     <input type="email" id="auth-email-modal" placeholder="邮箱" required>
