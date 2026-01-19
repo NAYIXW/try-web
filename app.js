@@ -1975,13 +1975,16 @@ function filterByTags(photos, selectedTags) {
     }
     
     return photos.filter(photo => {
-        if (!photo.tags || !Array.isArray(photo.tags)) {
+        // Handle both tag (string) and tags (array) formats
+        const photoTags = Array.isArray(photo.tags) ? photo.tags : (photo.tag ? [photo.tag] : []);
+        
+        if (photoTags.length === 0) {
             return false;
         }
         
         // Check if photo contains ALL selected tags
         return selectedTags.every(selectedTag => 
-            photo.tags.some(photoTag => photoTag.trim() === selectedTag.trim())
+            photoTags.some(photoTag => photoTag.trim() === selectedTag.trim())
         );
     });
 }

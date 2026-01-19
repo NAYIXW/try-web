@@ -515,6 +515,7 @@ body.dark-mode #home .card p {
   opacity: 1;
   mix-blend-mode: normal;
   filter: none;
+  padding-top: 80px;
 }
 
 /* Responsive adjustments for homepage cards */
@@ -2150,14 +2151,14 @@ body.dark-mode .add-exhibit:disabled {
 }
 
 .tag-button.selected {
-    background-color: #F0F0F0;
+    background-color: #D0D0D0;
     color: #111111;
-    border: 1px solid #BBBBBB;
+    border: 1px solid #AAAAAA;
 }
 
 .tag-button.selected:hover {
-    background-color: #E0E0E0;
-    border-color: #AAAAAA;
+    background-color: #C0C0C0;
+    border-color: #999999;
 }
 
 /* Dark mode styles for tag buttons */
@@ -2179,15 +2180,15 @@ body.dark-mode .tag-button:hover {
 }
 
 body.dark-mode .tag-button.selected {
-    background-color: #333333;
-    color: #EEEEEE;
-    border: 1px solid #666666;
+    background-color: #404040;
+    color: #FFFFFF;
+    border: 1px solid #777777;
     border-radius: 999px;
 }
 
 body.dark-mode .tag-button.selected:hover {
-    background-color: #444444;
-    border-color: #777777;
+    background-color: #505050;
+    border-color: #888888;
 }
 
 .no-tags-message {
