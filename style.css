@@ -2404,6 +2404,32 @@ body.dark-mode #auth-status-modal span {
     font-size: 12px !important;
 }
 
+/* 登录表单输入框和按钮统一高度 */
+#auth-form-modal input,
+#auth-form-modal button {
+    height: 42px !important;
+    box-sizing: border-box !important;
+}
+
+#auth-form-modal input {
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+    margin-bottom: 10px !important;
+}
+
+#auth-form-modal button {
+    padding: 0 16px !important;
+    font-size: 14px !important;
+    margin-top: 5px !important;
+}
+
+/* 登录弹窗标题位置调整 */
+.login-modal-content h3 {
+    margin-top: 0 !important;
+    margin-bottom: 20px !important;
+    text-align: left !important;
+}
+
 body.dark-mode .photo-popup,
 body.dark-mode .album-popup {
     background-color: #ffffff !important;
