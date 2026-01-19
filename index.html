@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LensLab - 摄影平台</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+    .gallery-photo { width: 100%; border-radius: 8px; }
+    .gallery-item { position: relative; }
+    .delete-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 4px 8px;
+    }
+    .work-img { width: 100%; height: auto; object-fit: contain; border-radius: 8px; margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <!-- 顶部固定导航 -->
+    <nav class="main-nav">
+        <div class="nav-left">
+            <div class="nav-logo">LensLab</div>
+        </div>
+
+        <div class="nav-center">
+            <a href="javascript:void(0)" class="nav-link is-active" data-section="home">首页概览</a>
+            <a href="javascript:void(0)" class="nav-link" data-section="library">作品库</a>
+            <a href="javascript:void(0)" class="nav-link" data-section="exif-lab">拍摄参数分析</a>
+            <a href="javascript:void(0)" class="nav-link" data-section="photo-map">拍摄地图</a>
+            <a href="javascript:void(0)" class="nav-link" data-section="gallery">线上展厅</a>
+        </div>
+
+        <div class="nav-right">
+            <button id="dark-mode-toggle" class="theme-toggle" aria-label="切换深浅模式">🌙</button>
+            <div class="user-dropdown">
+                <button class="user-dropdown-btn">
+                    <span class="nav-username">汪希妍</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+                <div class="user-dropdown-menu">
+                    <a href="javascript:void(0)" class="dropdown-item" id="logout-link">退出登录</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main id="main-content">
+        <!-- 首页 -->
+        <section id="home" class="content-section active">
+            <div class="container">
+                <h1 class="home-title">LensLab</h1>
+                <p class="home-subtitle">为摄影创作者打造的数字实验平台<br>记录、分析与呈现你的影像作品</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>影像数据管理</h3>
+                        <p>上传并管理你的摄影作品，保存标签、描述与拍摄元数据，构建属于你的个人摄影档案体系。</p>
+                    </div>
+                    <div class="card">
+                        <h3>EXIF 技术解读</h3>
+                        <p>自动读取与可视化呈现拍摄参数。光圈、快门、ISO 与焦距，将技术行为转化为数据洞察。</p>
+                    </div>
+                    <div class="card">
+                        <h3>地理摄影档案</h3>
+                        <p>为作品绑定空间坐标，以地图视角展示拍摄足迹，让地理语境成为影像叙事的一部分。</p>
+                    </div>
+                    <div class="card">
+                        <h3>线上展演空间</h3>
+                        <p>自由策划你的数字影像展览，拖拽排布作品、添加说明文字，构建专属于你的展演场域。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 作品库 -->
+        <section id="library" class="content-section">
+            <div class="container">
+                <h1>作品库</h1>
+                <p>管理您的个人照片收藏</p>
+                
+                <div class="info-section">
+                    <p>从下面的 LensLab 示例作品中进行筛选、分析与布展。</p>
+                </div>
+                
+                <div id="library-tag-filter" class="tag-filter-container-wrapper"></div>
+                <div id="library-grid" class="card-grid">
+                    <!-- 示例照片将动态加载到这里 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 拍摄参数分析 -->
+        <section id="exif-lab" class="content-section">
+            <div class="container">
+                <h1>拍摄参数分析</h1>
+                <p>分析照片元数据和技术细节</p>
+                
+                <div class="exif-tools">
+                    <!-- 上传图片区域 -->
+                    <div class="upload-section">
+                        <input type="file" id="exif-upload" accept="image/*">
+                        <button id="analyze-btn">分析照片</button>
+                    </div>
+                    
+                    <!-- 作品库同步区域 -->
+                    <div class="library-sync-section">
+                        <h3>从作品库选择照片</h3>
+                        <p>点击作品库中的任意照片进行EXIF分析</p>
+                        <div id="library-thumbnails" class="thumbnail-grid">
+                            <!-- 作品库缩略图将动态加载到这里 -->
+                        </div>
+                    </div>
+                    
+                    <div id="exif-results" class="card">
+                        <h3>EXIF数据</h3>
+                        <div id="exif-info">
+                            <p>选择一张照片以分析其EXIF数据</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="exif-stats-section">
+                    <h2>统计分析面板</h2>
+                    <p>基于您上传的作品进行的数据统计</p>
+                    
+                    <div id="stats-debug" style="margin-bottom:16px; font-size:14px; color:#999;"></div>
+                    
+                    <div class="stats-container">
+                        <div class="stat-panel card">
+                            <h3>ISO 分布</h3>
+                            <div id="iso-chart" class="chart-container" style="width:100%;height:260px;">
+                                <div id="isoChart" style="width:100%;height:100%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-panel card">
+                            <h3>焦距分布</h3>
+                            <div id="focal-length-chart" class="chart-container" style="width:100%;height:260px;">
+                                <div id="focalChart" style="width:100%;height:100%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-panel card">
+                            <h3>光圈分布</h3>
+                            <div id="aperture-chart" class="chart-container" style="width:100%;height:260px;">
+                                <div id="apertureChart" style="width:100%;height:100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 拍摄地图 -->
+        <section id="photo-map" class="content-section">
+            <div class="container">
+                <h1>拍摄地图</h1>
+                <p>在交互式地图上查看照片</p>
+                
+                <div class="map-page">
+                  <section class="map-toolbar-card">
+                    <h2>地图控制</h2>
+                    <div class="map-toolbar">
+                      <button id="add-location-btn">添加拍摄地点</button>
+                      <button id="sync-with-library-btn">同步作品库</button>
+                    </div>
+                  </section>
+
+                  <section class="map-card">
+                    <div id="shootMap"></div>
+                  </section>
+                </div>
+                
+                <!-- Add Location Modal -->
+                <div id="add-location-modal" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+                    <div class="modal-content" style="background: white; padding: 20px; border-radius: 8px; width: 500px; max-width: 90vw; position: relative;">
+                        <h3>添加拍摄地点</h3>
+                        <div style="margin-bottom: 15px;">
+                            <label>地点名称 *</label>
+                            <input type="text" id="location-title" placeholder="请输入地点名称" style="width: 100%; padding: 8px; margin-top: 5px;" required>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label>地点描述</label>
+                            <textarea id="location-desc" placeholder="请输入地点描述" style="width: 100%; padding: 8px; margin-top: 5px; height: 80px;"></textarea>
+                        </div>
+                        <div style="margin-bottom: 15px; display: flex; gap: 10px;">
+                            <div style="flex: 1;">
+                                <label>经度</label>
+                                <input type="number" id="location-lng" placeholder="经度" step="any" style="width: 100%; padding: 8px; margin-top: 5px;">
+                            </div>
+                            <div style="flex: 1;">
+                                <label>纬度</label>
+                                <input type="number" id="location-lat" placeholder="纬度" step="any" style="width: 100%; padding: 8px; margin-top: 5px;">
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label>上传照片</label>
+                            <input type="file" id="album-photos" accept="image/*" multiple style="width: 100%; padding: 8px; margin-top: 5px;">
+                        </div>
+                        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                            <button id="cancel-location" style="padding: 8px 16px; background: #ccc; border: none; border-radius: 4px; cursor: pointer;">取消</button>
+                            <button id="save-location" style="padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">保存地点</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Add Photo to Album Modal -->
+                <div id="add-photo-modal" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+                    <div class="modal-content" style="background: white; padding: 20px; border-radius: 8px; width: 500px; max-width: 90vw; position: relative;">
+                        <h3>添加照片到相册</h3>
+                        <div style="margin-bottom: 15px;">
+                            <label>选择照片</label>
+                            <input type="file" id="more-album-photos" accept="image/*" multiple style="width: 100%; padding: 8px; margin-top: 5px;">
+                        </div>
+                        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                            <button id="cancel-photo" style="padding: 8px 16px; background: #ccc; border: none; border-radius: 4px; cursor: pointer;">取消</button>
+                            <button id="save-photo" style="padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">保存照片</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 线上展厅 -->
+        <section id="gallery" class="content-section">
+            <div class="container">
+                <h1>线上展厅</h1>
+                <p>沉浸式的数字摄影艺术空间</p>
+                
+                <div class="exhibition-page">
+                  <!-- 左侧：作品选择区 -->
+                  <aside class="exhibition-sidebar">
+                    <h3>作品选择</h3>
+                    <p class="hint">从作品库中选择要布展的作品</p>
+                    <div id="exhibition-tag-filter" class="tag-filter-container-wrapper"></div>
+                    <div id="exhibition-photo-list" class="photo-list"></div>
+                  </aside>
+
+                  <!-- 右侧：展厅画布 + 控制区 -->
+                  <section class="exhibition-main">
+                    <div class="exhibition-toolbar">
+                      <span>虚拟展厅布置</span>
+                      <div class="actions">
+                        <button id="exhibition-save-btn">保存布展</button>
+                        <button id="exhibition-add-text-btn">添加文字</button>
+                        <button id="exhibition-clear-btn">清空展厅</button>
+                      </div>
+                    </div>
+
+                    <div id="exhibition-canvas" class="exhibition-canvas">
+                      <!-- 在这里动态插入可拖拽的作品元素 -->
+                      <div class="exhibition-placeholder">将作品加入展厅后，可以在这里自由拖拽排布</div>
+                    </div>
+                  </section>
+                </div>
+            </div>
+        </section>
+
+        <!-- 登录 -->
+        <section id="login" class="content-section">
+            <div class="container">
+                <h1>账户登录 / 注册</h1>
+                <p>访问您的账户或创建新账户</p>
+                
+                <div class="auth-container">
+                    <div class="auth-form card">
+                        <h3 id="auth-title">智能登录/注册</h3>
+                        <form id="auth-form">
+                            <input type="text" id="auth-name" placeholder="姓名（注册时需要）" required>
+                            <input type="email" id="auth-email" placeholder="邮箱" required>
+                            <input type="password" id="auth-password" placeholder="密码" required>
+                            <button type="submit" id="auth-submit-btn">登录/注册</button>
+                        </form>
+                        <p id="auth-status" style="margin-top: 10px; text-align: center;"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 登录弹窗 - 安全版 -->
+    <div id="login-overlay" class="login-overlay">
+        <div class="login-modal">
+            <div class="login-modal-content card">
+                <span id="login-close" class="login-close">&times;</span>
+                <h3 id="auth-title-modal">智能登录/注册</h3>
+                <form id="auth-form-modal">
+                    <input type="text" id="auth-name-modal" placeholder="姓名（注册时需要）" required>
+                    <input type="email" id="auth-email-modal" placeholder="邮箱" required>
+                    <input type="password" id="auth-password-modal" placeholder="密码" required>
+                    <button type="submit" id="auth-submit-btn-modal">登录/注册</button>
+                </form>
+                <p id="auth-status-modal" style="margin-top: 10px; text-align: center;"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- EXIF library -->
+    <script src="https://cdn.jsdelivr.net/npm/exif-js@2.3.0/exif.js"></script>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- ECharts library -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="app.js" defer></script>
+</body>
+</html>
